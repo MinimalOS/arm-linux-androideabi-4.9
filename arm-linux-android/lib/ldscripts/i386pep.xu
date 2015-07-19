@@ -13,9 +13,17 @@ SECTIONS
     *(.glue_7)
     . = ALIGN(8);
      ___CTOR_LIST__ = .; __CTOR_LIST__ = . ;
-			LONG (-1); LONG (-1);*(.ctors); *(.ctor); *(SORT(.ctors.*));  LONG (0); LONG (0);
+			LONG (-1); LONG (-1);
+			KEEP (*(.ctors));
+			KEEP (*(.ctor));
+			KEEP (*(SORT(.ctors.*)));
+			LONG (0); LONG (0);
      ___DTOR_LIST__ = .; __DTOR_LIST__ = . ;
-			LONG (-1); LONG (-1); *(.dtors); *(.dtor); *(SORT(.dtors.*));  LONG (0); LONG (0);
+			LONG (-1); LONG (-1);
+			KEEP (*(.dtors));
+			KEEP (*(.dtor));
+			KEEP (*(SORT(.dtors.*)));
+			LONG (0); LONG (0);
     /* ??? Why is .gcc_exc here?  */
   }
   /* The Cygwin32 library uses a section to avoid copying certain data
@@ -27,7 +35,7 @@ SECTIONS
   {
     *(.data)
     *(.data2)
-    *(.jcr)
+    KEEP(*(.jcr))
   }
   .rdata  :
   {
@@ -36,15 +44,15 @@ SECTIONS
   }
   .eh_frame  :
   {
-    *(.eh_frame*)
+    KEEP (*(.eh_frame*))
   }
   .pdata  :
   {
-    *(.pdata*)
+    KEEP(*(.pdata*))
   }
   .xdata  :
   {
-    *(.xdata*)
+    KEEP(*(.xdata*))
   }
   .bss  :
   {

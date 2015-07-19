@@ -117,11 +117,14 @@ SECTIONS
      *(.dtors)
      __dtors_end = . ;
     . = ALIGN(2);
+    *(.lower.text.* .lower.text)
+    . = ALIGN(2);
     *(.text)
     . = ALIGN(2);
     *(.text.*)
     . = ALIGN(2);
     *(.text:*)
+    *(.either.text.* .either.text)
     . = ALIGN(2);
     *(SORT_NONE(.fini9))
     *(SORT_NONE(.fini8))
@@ -139,9 +142,12 @@ SECTIONS
   .rodata :
   {
     . = ALIGN(2);
+    *(.lower.rodata.* .lower.rodata)
+    . = ALIGN(2);
     *(.plt)
     *(.rodata .rodata.* .gnu.linkonce.r.* .const .const:*)
     *(.rodata1)
+    *(.either.rodata.*) *(.either.rodata)
     *(.eh_frame_hdr)
     KEEP (*(.eh_frame))
     KEEP (*(.gcc_except_table)) *(.gcc_except_table.*)
@@ -190,11 +196,14 @@ SECTIONS
     KEEP (*(.jcr))
     *(.data.rel.ro.local) *(.data.rel.ro*)
     *(.dynamic)
+    . = ALIGN(2);
+    *(.lower.data.* .lower.data)
     *(.data)
     *(.data.*)
     *(.gnu.linkonce.d*)
     KEEP (*(.gnu.linkonce.d.*personality*))
     *(.data1)
+    *(.either.data.* .either.data)
     *(.got.plt) *(.got)
     . = ALIGN(2);
     *(.sdata .sdata.* .gnu.linkonce.s.*)
@@ -205,7 +214,10 @@ SECTIONS
   {
     . = ALIGN(2);
      PROVIDE (__bss_start = .) ;
+    *(.lower.bss.* .lower.bss)
+    . = ALIGN(2);
     *(.bss)
+    *(.either.bss.* .either.bss)
     *(COMMON)
      PROVIDE (__bss_end = .) ;
      _end = . ;

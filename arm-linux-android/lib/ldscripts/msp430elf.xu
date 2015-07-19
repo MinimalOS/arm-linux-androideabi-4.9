@@ -1,4 +1,4 @@
-/* Script for ld -r: link without relocation */
+/* Script for ld -Ur: link w/out relocation, do create constructors */
 /* Copyright (C) 2014-2015 Free Software Foundation, Inc.
    Copying and distribution of this script, with or without modification,
    are permitted in any medium without royalty provided the copyright
@@ -93,9 +93,17 @@ SECTIONS
     *(SORT_NONE(.init7))
     *(SORT_NONE(.init8))
     *(SORT_NONE(.init9))  /* Call main().  */
+     __ctors_start = . ;
+     *(.ctors)
+     __ctors_end = . ;
+     __dtors_start = . ;
+     *(.dtors)
+     __dtors_end = . ;
+    *(.lower.text.* .lower.text)
     *(.text)
     *(.text.*)
     *(.text:*)
+    *(.either.text.* .either.text)
     *(SORT_NONE(.fini9))
     *(SORT_NONE(.fini8))
     *(SORT_NONE(.fini7))
@@ -111,10 +119,12 @@ SECTIONS
   }
   .rodata :
   {
+    *(.lower.rodata.* .lower.rodata)
     . = ALIGN(2);
     *(.plt)
     *(.rodata .rodata.* .gnu.linkonce.r.* .const .const:*)
     *(.rodata1)
+    *(.either.rodata.*) *(.either.rodata)
     *(.eh_frame_hdr)
     KEEP (*(.eh_frame))
     KEEP (*(.gcc_except_table)) *(.gcc_except_table.*)
@@ -158,17 +168,21 @@ SECTIONS
     KEEP (*(.jcr))
     *(.data.rel.ro.local) *(.data.rel.ro*)
     *(.dynamic)
+    *(.lower.data.* .lower.data)
     *(.data)
     *(.data.*)
     *(.gnu.linkonce.d*)
     KEEP (*(.gnu.linkonce.d.*personality*))
     *(.data1)
+    *(.either.data.* .either.data)
     *(.got.plt) *(.got)
     *(.sdata .sdata.* .gnu.linkonce.s.*)
   }
   .bss  :
   {
+    *(.lower.bss.* .lower.bss)
     *(.bss)
+    *(.either.bss.* .either.bss)
     *(COMMON)
   }
   .noinit  :

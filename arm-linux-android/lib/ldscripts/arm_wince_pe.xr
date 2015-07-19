@@ -22,7 +22,7 @@ SECTIONS
   {
     *(.data)
     *(.data2)
-    *(.jcr)
+    KEEP(*(.jcr))
   }
   .rdata  :
   {
@@ -31,11 +31,11 @@ SECTIONS
   }
   .eh_frame  :
   {
-    *(.eh_frame*)
+    KEEP(*(.eh_frame*))
   }
   .pdata  :
   {
-    *(.pdata)
+    KEEP(*(.pdata))
   }
   .bss  :
   {

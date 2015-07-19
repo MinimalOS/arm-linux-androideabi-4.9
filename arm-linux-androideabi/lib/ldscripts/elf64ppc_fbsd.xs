@@ -147,7 +147,7 @@ SECTIONS
   .toc1		  : ALIGN(8) { *(.toc1) }
   .opd		  : ALIGN(8) { KEEP (*(.opd)) }
   .branch_lt	  : ALIGN(8) { *(.branch_lt) }
-  .got		: ALIGN(8) { *(.got .toc) }
+  .got		: ALIGN(256) { *(.got .toc) }
   /* We want the small data sections together, so single-instruction offsets
      can access them all, and initialized data all before uninitialized, so
      we can shorten the on-disk segment size.  */

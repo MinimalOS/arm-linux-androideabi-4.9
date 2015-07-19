@@ -5,15 +5,20 @@
    notice and this notice are preserved.  */
 OUTPUT_FORMAT("elf32-avr","elf32-avr","elf32-avr")
 OUTPUT_ARCH(avr:100)
+__TEXT_REGION_LENGTH__ = DEFINED(__TEXT_REGION_LENGTH__) ? __TEXT_REGION_LENGTH__ : 4K;
+__DATA_REGION_LENGTH__ = DEFINED(__DATA_REGION_LENGTH__) ? __DATA_REGION_LENGTH__ : 0x100;
+__FUSE_REGION_LENGTH__ = DEFINED(__FUSE_REGION_LENGTH__) ? __FUSE_REGION_LENGTH__ : 2;
+__LOCK_REGION_LENGTH__ = DEFINED(__LOCK_REGION_LENGTH__) ? __LOCK_REGION_LENGTH__ : 2;
+__SIGNATURE_REGION_LENGTH__ = DEFINED(__SIGNATURE_REGION_LENGTH__) ? __SIGNATURE_REGION_LENGTH__ : 4;
 MEMORY
 {
-  text   (rx)   : ORIGIN = 0x0, LENGTH = 4K
-  data   (rw!x) : ORIGIN = 0x0800040, LENGTH = 0x100
+  text   (rx)   : ORIGIN = 0x0, LENGTH = __TEXT_REGION_LENGTH__
+  data   (rw!x) : ORIGIN = 0x0800040, LENGTH = __DATA_REGION_LENGTH__
   /* Provide offsets for config, lock and signature to match
      production file format. Ignore offsets in datasheet.  */
-  config    (rw!x) : ORIGIN = 0x820000, LENGTH = 2
-  lock      (rw!x) : ORIGIN = 0x830000, LENGTH = 2
-  signature (rw!x) : ORIGIN = 0x840000, LENGTH = 4
+  config    (rw!x) : ORIGIN = 0x820000, LENGTH = __FUSE_REGION_LENGTH__
+  lock      (rw!x) : ORIGIN = 0x830000, LENGTH = __LOCK_REGION_LENGTH__
+  signature (rw!x) : ORIGIN = 0x840000, LENGTH = __SIGNATURE_REGION_LENGTH__
 }
 SECTIONS
 {
